@@ -1,29 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
+import GlobalStyle from "./components/GlobalStyle";
+import CardPage from "./components/CardPage";
 
 const App = () => {
+  //State
   const [playersData, setPlayersData] = useState([]);
 
+  // Functions
   const getPlayersData = async () => {
-    const data = await fetch(
-      "https://playline-dev-test.s3-us-west-2.amazonaws.com/playline-test.json"
+    const res = await fetch(
+      "https://cors-anywhere.herokuapp.com/https://playline-dev-test.s3-us-west-2.amazonaws.com/playline-test.json"
     );
-    setPlayersData(data);
+    const data = await res.json();
+    setPlayersData(data.players);
   };
 
+  // Effects
   useEffect(() => {
     getPlayersData();
   }, []);
 
   return (
-    <div className="container">
-      <h1>Header 1</h1>
-      <p>
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Officia ea
-        dolore reiciendis provident, aspernatur esse et facilis nobis natus
-        praesentium repellat labore commodi? Voluptate, nisi possimus? Tenetur
-        enim corporis porro?
-      </p>
-    </div>
+    <Fragment>
+      <GlobalStyle />
+      <CardPage players={playersData} />
+    </Fragment>
   );
 };
 
